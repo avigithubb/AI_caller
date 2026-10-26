@@ -215,12 +215,31 @@ STATUS_RANK = {
 }
 FINAL_STATUSES = {S.COMPLETED, S.UNANSWERED, S.FAILED}
 
-client = Vonage(Auth(
-    application_id=VONAGE_APPLICATION_ID,
-    private_key=VONAGE_PRIVATE_KEY,
-))
+# Initialize Vonage client safely
+client = None
 
+# 1. Check for raw private key content in env (e.g. from Render)
+# 2. Otherwise fall back to local file path
+private_key_content = os.getenv("VONAGE_PRIVATE_KEY")
+if not private_key_content and os.path.exists(VONAGE_PRIVATE_KEY):
+    try:
+        with open(VONAGE_PRIVATE_KEY, "r") as f:
+            private_key_content = f.read()
+    except Exception as e:
+        logger.warning(f"Could not read Vonage key file: {e}")
 
+if VONAGE_APPLICATION_ID and private_key_content:
+    try:
+        # Replace literal '\n' characters if passed as a single-line string in env
+        formatted_key = private_key_content.replace("\\n", "\n").strip()
+        client = Vonage(Auth(
+            application_id=VONAGE_APPLICATION_ID,
+            private_key=formatted_key,
+        ))
+    except Exception as exc:
+        logger.error(f"Failed to initialize Vonage client: {exc}")
+else:
+    logger.warning("Vonage credentials not found; Vonage calling is disabled.")
 # --------------------------------------------------------------------------
 # Helpers (replace your existing _serialize and _error with these)
 # --------------------------------------------------------------------------
@@ -283,6 +302,9 @@ def make_call(request):
             raise ValueError
     except ValueError:
         return _error("Invalid JSON body.")
+
+    if not client:
+        return _error("Calling service is not configured on this server.", 503)
 
     phone = "".join(ch for ch in str(data.get("phone") or "") if ch.isdigit())
     message = str(data.get("prompt") or "").strip()
