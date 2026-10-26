@@ -1,0 +1,20 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ai_caller_backend:latest
+    container_name: ai_caller_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DEBUG=False
+      - DB_DIR=/app/data
+    volumes:
+      - sqlite_data:/app/data
+
+volumes:
+  sqlite_data:

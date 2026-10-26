@@ -1,0 +1,24 @@
+# Django Core
+Django==6.1.1
+
+# Django REST Framework
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.4.0
+
+# CORS Headers
+django-cors-headers==4.6.0
+
+# Authentication & Security
+PyJWT==2.10.1
+bcrypt==4.2.1
+google-auth==2.62.0
+
+# HTTP & Environment
+requests==2.32.3
+python-dotenv==1.2.4
+
+# Vonage SDK
+vonage==3.18.0
+
+# Production server
+gunicorn==23.0.0
