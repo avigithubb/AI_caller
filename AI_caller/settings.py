@@ -27,7 +27,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", "insecure-development-key-replace-in-env")
 JWT_SECRET_KEY = os.getenv("JWT_SECRET", SECRET_KEY)
 DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "t")
 
-raw_hosts = os.getenv("ALLOWED_HOSTS", "licorice-knee-confidant.ngrok-free.dev,127.0.0.1,localhost")
+raw_hosts = os.getenv(
+    "ALLOWED_HOSTS",
+    "ai-caller-k6r2.onrender.com,licorice-knee-confidant.ngrok-free.dev,127.0.0.1,localhost,.onrender.com"
+)
 ALLOWED_HOSTS = [h.strip() for h in raw_hosts.split(",") if h.strip()]
 
 raw_cors = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:8081,http://127.0.0.1:8081")
