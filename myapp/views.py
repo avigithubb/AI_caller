@@ -325,7 +325,7 @@ def make_call(request):
         generated_text=message,
     )
 
-    base_url = getattr(settings, "PUBLIC_BASE_URL", "https://licorice-knee-confidant.ngrok-free.dev")
+    base_url = getattr(settings, "PUBLIC_BASE_URL", "https://ai-caller-k6r2.onrender.com")
     event_url = f"{base_url}/api/calls/vonage/event/?cr={call.id}"
 
     try:

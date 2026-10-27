@@ -36,7 +36,7 @@ ALLOWED_HOSTS = [h.strip() for h in raw_hosts.split(",") if h.strip()]
 raw_cors = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:8081,http://127.0.0.1:8081")
 CORS_ALLOWED_ORIGINS = [o.strip() for o in raw_cors.split(",") if o.strip()]
 
-PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "https://licorice-knee-confidant.ngrok-free.dev")
+PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "https://ai-caller-k6r2.onrender.com")
 
 # Vonage Configuration
 VONAGE_APPLICATION_ID = os.getenv("VONAGE_APPLICATION_ID", "")
